@@ -35,6 +35,7 @@ export const PaginationTable = () => {
     footerGroups,
     gotoPage,
     pageCount,
+    setPageSize,
     pageOptions,
     canPreviousPage,
     canNextPage,
@@ -42,7 +43,7 @@ export const PaginationTable = () => {
     page,
     setGlobalFilter,
   } = tableInstance;
-  const { globalFilter, pageIndex } = state;
+  const { globalFilter, pageIndex, pageSize } = state;
   return (
     <div className="flex flex-col items-center">
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
@@ -81,7 +82,32 @@ export const PaginationTable = () => {
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </span>
-        <button onClick={() => gotoPage(0)} disabled={!previousPage}>
+        <span className="ml-12 w-14 border-rose-100 p-2">
+          | <span className="ml-4">Go to page: </span>
+          <input
+            type="text"
+            defaultValue={pageIndex + 1}
+            onChange={(e) => {
+              const pageNumber = e.target.value
+                ? Number(e.target.value) - 1
+                : 0;
+              gotoPage(pageNumber);
+            }}
+            className="bg-transparent w-12 "
+          />
+        </span>
+        <select value={pageSize} onChange={(e) => setPageSize(e.target.value)}>
+          {[10, 30, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() => gotoPage(0)}
+          disabled={!canPreviousPage}
+          className="bg-slate-700 text-white p-2 m-2"
+        >
           {"<<"}{" "}
         </button>
         <button
@@ -98,7 +124,11 @@ export const PaginationTable = () => {
         >
           Next
         </button>
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!nextPage}>
+        <button
+          onClick={() => gotoPage(pageCount - 1)}
+          disabled={!canNextPage}
+          className="bg-slate-700 text-white p-2 m-2"
+        >
           {">>"}{" "}
         </button>
       </div>
