@@ -1,25 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BasicTable } from "./Components/BasicTable";
+import { FilteringTable } from "./Components/FilteringTable";
+import { PaginationTable } from "./Components/PaginationTable";
+import { SortingTable } from "./Components/SortingTable";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <PaginationTable />
     </div>
   );
-}
+};
 
 export default App;
